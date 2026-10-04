@@ -1,0 +1,39 @@
+; Zone file syntax that parsers get wrong. Compared with dnspython by scripts/check_zone.py.
+$TTL 1h30m
+@ IN SOA ns1.tricky.test. host\.master.tricky.test. ( 2026100401 ; serial
+    2h   ; refresh, with a unit
+    30M  ; retry, capital unit
+    2w   ; expire
+    5m ) ; minimum
+  NS ns1
+  NS ns2.elsewhere.example.
+ns1 A 192.0.2.1
+ns1 IN 600 AAAA 2001:db8::1
+ns1 600 IN AAAA 2001:db8::2
+semi TXT "a; not a comment" "tab\009and\"quote\\" unquoted\032word
+semi TXT "" "\255\000"
+paren TXT ( "first"
+            "second" )
+esc\.dot A 192.0.2.2
+\@at A 192.0.2.3
+\$dollar A 192.0.2.4
+UPPER.Case A 192.0.2.5
+mx MX 10 mail
+mx MX 20 mail.elsewhere.example.
+_sip._tcp SRV 10 60 5060 sipserver
+caa CAA 0 issue "letsencrypt.org"
+caa CAA 128 tbs "Unknown"
+caa CAA 0 iodef "mailto:security@tricky.test"
+gen TYPE65280 \# 6 010203040506
+gen2 A \# 4 C0000207
+empty TYPE65281 \# 0
+hinfo HINFO "PC-Intel-700mhz" "Windows 98"
+$ORIGIN sub.tricky.test.
+a A 192.0.2.10
+b CNAME a
+c CNAME a.sub.tricky.test.
+$ORIGIN tricky.test.
+*.wild A 192.0.2.99
+deep.ent.chain A 192.0.2.100
+ds DS 60485 5 1 2BB183AF5F22588179A53B0A98631FAD1A292118
+ds DS 60485 5 2 D4B7D520E7BB5F0F67674A0CCEB1E3E0614B93C4F9E99B8383F6A1E4469DA50A

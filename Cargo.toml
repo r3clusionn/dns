@@ -1,0 +1,29 @@
+[package]
+name = "dns"
+version = "0.1.0"
+edition = "2021"
+description = "An authoritative DNS server and a caching resolver (recursive from the root, or forwarding over DNS-over-TLS or DNS-over-HTTPS) sharing one wire format and zone file parser."
+license = "MIT"
+
+[lib]
+name = "dnscore"
+
+[[bin]]
+name = "dnsr"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+ring = "0.17"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+serde = { version = "1", features = ["derive"] }
+toml = "0.9"
+webpki-roots = "1"
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+lto = true
+codegen-units = 1
+debug = false
